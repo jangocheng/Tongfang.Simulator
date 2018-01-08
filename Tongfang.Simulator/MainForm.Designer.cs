@@ -7,19 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// 清理所有正在使用的资源。
-        /// </summary>
-        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Windows 窗体设计器生成的代码
 
         /// <summary>
@@ -30,21 +17,21 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
-            this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelInput = new System.Windows.Forms.TableLayoutPanel();
             this.labelIP = new System.Windows.Forms.Label();
             this.labelPort = new System.Windows.Forms.Label();
             this.textBoxIP = new System.Windows.Forms.TextBox();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnStartup = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
+            this.btnCloseChannel = new System.Windows.Forms.Button();
+            this.btnStartupChannel = new System.Windows.Forms.Button();
             this.groupBoxReceive = new System.Windows.Forms.GroupBox();
+            this.richTextBoxReceive = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.btnClearReceive = new System.Windows.Forms.Button();
-            this.richTextBoxReceive = new System.Windows.Forms.RichTextBox();
             this.richTextBoxError = new System.Windows.Forms.RichTextBox();
             this.btnClearError = new System.Windows.Forms.Button();
+            this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelInput.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -120,6 +107,7 @@
             this.textBoxIP.Name = "textBoxIP";
             this.textBoxIP.Size = new System.Drawing.Size(240, 21);
             this.textBoxIP.TabIndex = 2;
+            this.textBoxIP.Text = "127.0.0.1";
             // 
             // textBoxPort
             // 
@@ -128,14 +116,15 @@
             this.textBoxPort.Name = "textBoxPort";
             this.textBoxPort.Size = new System.Drawing.Size(60, 21);
             this.textBoxPort.TabIndex = 3;
+            this.textBoxPort.Text = "43210";
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.btnClose, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnStartup, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnCloseChannel, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnStartupChannel, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(470, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -143,25 +132,27 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(111, 38);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // btnStartup
+            // btnCloseChannel
             // 
-            this.btnStartup.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnStartup.Location = new System.Drawing.Point(3, 7);
-            this.btnStartup.Name = "btnStartup";
-            this.btnStartup.Size = new System.Drawing.Size(49, 23);
-            this.btnStartup.TabIndex = 0;
-            this.btnStartup.Text = "开启";
-            this.btnStartup.UseVisualStyleBackColor = true;
+            this.btnCloseChannel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCloseChannel.Location = new System.Drawing.Point(58, 7);
+            this.btnCloseChannel.Name = "btnCloseChannel";
+            this.btnCloseChannel.Size = new System.Drawing.Size(49, 23);
+            this.btnCloseChannel.TabIndex = 1;
+            this.btnCloseChannel.Text = "关闭";
+            this.btnCloseChannel.UseVisualStyleBackColor = true;
+            this.btnCloseChannel.Click += new System.EventHandler(this.btnCloseChannel_Click);
             // 
-            // btnClose
+            // btnStartupChannel
             // 
-            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnClose.Location = new System.Drawing.Point(58, 7);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(49, 23);
-            this.btnClose.TabIndex = 1;
-            this.btnClose.Text = "关闭";
-            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnStartupChannel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnStartupChannel.Location = new System.Drawing.Point(3, 7);
+            this.btnStartupChannel.Name = "btnStartupChannel";
+            this.btnStartupChannel.Size = new System.Drawing.Size(49, 23);
+            this.btnStartupChannel.TabIndex = 0;
+            this.btnStartupChannel.Text = "开启";
+            this.btnStartupChannel.UseVisualStyleBackColor = true;
+            this.btnStartupChannel.Click += new System.EventHandler(this.btnStartupChannel_Click);
             // 
             // groupBoxReceive
             // 
@@ -173,6 +164,16 @@
             this.groupBoxReceive.TabIndex = 2;
             this.groupBoxReceive.TabStop = false;
             this.groupBoxReceive.Text = "接受的数据";
+            // 
+            // richTextBoxReceive
+            // 
+            this.richTextBoxReceive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxReceive.Location = new System.Drawing.Point(3, 17);
+            this.richTextBoxReceive.Name = "richTextBoxReceive";
+            this.richTextBoxReceive.ReadOnly = true;
+            this.richTextBoxReceive.Size = new System.Drawing.Size(455, 238);
+            this.richTextBoxReceive.TabIndex = 0;
+            this.richTextBoxReceive.Text = "";
             // 
             // tableLayoutPanel2
             // 
@@ -201,16 +202,6 @@
             this.toolTipMain.SetToolTip(this.btnClearReceive, "清空接受数据");
             this.btnClearReceive.UseVisualStyleBackColor = true;
             this.btnClearReceive.Click += new System.EventHandler(this.btnClearReceive_Click);
-            // 
-            // richTextBoxReceive
-            // 
-            this.richTextBoxReceive.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxReceive.Location = new System.Drawing.Point(3, 17);
-            this.richTextBoxReceive.Name = "richTextBoxReceive";
-            this.richTextBoxReceive.ReadOnly = true;
-            this.richTextBoxReceive.Size = new System.Drawing.Size(455, 238);
-            this.richTextBoxReceive.TabIndex = 0;
-            this.richTextBoxReceive.Text = "";
             // 
             // richTextBoxError
             // 
@@ -243,6 +234,8 @@
             this.Controls.Add(this.tableLayoutPanelMain);
             this.Name = "MainForm";
             this.Text = "模拟服务";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelInput.ResumeLayout(false);
             this.tableLayoutPanelInput.PerformLayout();
@@ -263,8 +256,8 @@
         private System.Windows.Forms.TextBox textBoxIP;
         private System.Windows.Forms.TextBox textBoxPort;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button btnStartup;
-        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnStartupChannel;
+        private System.Windows.Forms.Button btnCloseChannel;
         private System.Windows.Forms.GroupBox groupBoxReceive;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button btnClearReceive;
