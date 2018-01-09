@@ -75,7 +75,7 @@ namespace Tongfang.Simulator
         {
             StringBuilder builder = new StringBuilder();
             builder.Append("Head: ").Append(message.Head.FirstByte).Append(" ").Append(message.Head.TypeByte);
-            builder.Append("BodyLenth: ").Append(message.Body.Length).AppendLine();
+            builder.Append(" BodyLenth: ").Append(message.Body.Length).AppendLine();
             builder.Append(message.Body.ToString(Encoding.UTF8));
             if (richTextBoxReceive.InvokeRequired)
             {
