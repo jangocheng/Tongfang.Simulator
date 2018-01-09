@@ -27,6 +27,7 @@ namespace Tongfang.Simulator
 
         // 通道是否准备就绪
         private bool channelIsReady = false;
+        MyServerHandler myHandler;
 
         public MainForm()
         {
@@ -44,6 +45,8 @@ namespace Tongfang.Simulator
         {
             bossGroup = new MultithreadEventLoopGroup(1);
             workerGroup = new MultithreadEventLoopGroup();
+            myHandler = new MyServerHandler();
+            myHandler.Received += MyHandler_Received;
             bootstrap = new ServerBootstrap();
             bootstrap.Group(bossGroup, workerGroup)
                     .Channel<TcpServerSocketChannel>()
@@ -58,9 +61,44 @@ namespace Tongfang.Simulator
                         //}
                         //pipeline.AddLast(new LoggingHandler("SRV-CONN"));
                         pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
-                        pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(1000, 0, 4, 0, 5));
-                        pipeline.AddLast("my-handler", new MyServerHandler());
+                        pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(1000, 0, 4, 0, 4));
+                        pipeline.AddLast("my-handler", myHandler);
                     }));
+        }
+
+        private void MyHandler_Received(object sender, MessageEventArgs e)
+        {
+            HandleMessage(e.Message);
+        }
+
+        private void HandleMessage(MessageData message)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("Head: ").Append(message.Head.FirstByte).Append(" ").Append(message.Head.TypeByte).AppendLine();
+            builder.Append("BodyLenth: ").Append(message.Body.Length).AppendLine();
+            builder.Append(message.Body.ToString(Encoding.UTF8));
+            if (richTextBoxReceive.InvokeRequired)
+            {
+                richTextBoxReceive.Invoke(new Action(() =>
+                {
+                    AppendTextAndLine(richTextBoxReceive, builder.ToString());
+                }));
+            }
+            else
+            {
+                AppendTextAndLine(richTextBoxReceive, builder.ToString());
+            }
+        }
+
+        private void AppendTextAndLine(RichTextBox richTextBox, string text)
+        {
+            int max = richTextBox.MaxLength - 10;
+            if (richTextBox.TextLength + text.Length > max)
+            {
+                richTextBox.Clear();
+            }
+            richTextBox.AppendText(text);
+            richTextBox.AppendText(Environment.NewLine);
         }
 
         private void HandleException(Exception ex)
@@ -69,19 +107,13 @@ namespace Tongfang.Simulator
             {
                 richTextBoxError.Invoke(new Action(() =>
                 {
-                    AppendException(ex.ToString());
+                    AppendTextAndLine(richTextBoxError, ex.ToString());
                 }));
             }
             else
             {
-                AppendException(ex.ToString());
+                AppendTextAndLine(richTextBoxError, ex.ToString());
             }
-        }
-
-        private void AppendException(string text)
-        {
-            richTextBoxError.AppendText(text);
-            richTextBoxError.AppendText(Environment.NewLine);
         }
 
         private void MainForm_Load(object sender, EventArgs e)

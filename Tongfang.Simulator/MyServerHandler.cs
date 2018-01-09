@@ -9,19 +9,46 @@ using System.Threading.Tasks;
 
 namespace Tongfang.Simulator
 {
+    public class MessageEventArgs : EventArgs
+    {
+        private MessageData _message;
+
+        public MessageEventArgs(MessageData message)
+        {
+            _message = message;
+        }
+
+        public MessageData Message
+        {
+            get { return _message; }
+        }
+    }
+
     public class MyServerHandler : ChannelHandlerAdapter
     {
+        public event EventHandler<MessageEventArgs> Received;
+
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var buffer = message as IByteBuffer;
-            int length = buffer.ReadableBytes;
-            byte[] data = new byte[length];
-            buffer.ReadBytes(data);
-            if (buffer != null)
+            if (buffer == null)
             {
-                string msg = Encoding.UTF8.GetString(data);
-                System.Diagnostics.Debug.WriteLine(msg);
+                return;
             }
+            int length = buffer.ReadableBytes;
+            byte[] sourceArray = new byte[length];
+            buffer.ReadBytes(sourceArray);
+            ArraySegment<byte> body = new ArraySegment<byte>(sourceArray, 2, length - 6);
+            MessageData md = new MessageData(
+                new MessageHead() { FirstByte = sourceArray[0], TypeByte = sourceArray[1] },
+                new MessageBody(body.ToArray())
+                );
+            OnReceived(new MessageEventArgs(md));
+        }
+
+        protected void OnReceived(MessageEventArgs e)
+        {
+            Received?.Invoke(this, e);
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context)
