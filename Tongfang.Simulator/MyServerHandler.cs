@@ -28,6 +28,8 @@ namespace Tongfang.Simulator
     {
         public event EventHandler<MessageEventArgs> Received;
 
+        public override bool IsSharable => true;
+
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var buffer = message as IByteBuffer;

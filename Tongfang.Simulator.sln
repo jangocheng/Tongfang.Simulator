@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tongfang.Simulator", "Tongfang.Simulator\Tongfang.Simulator.csproj", "{7783461D-C4D6-47C9-B2EC-E2520DCD86B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNettyConsoleClient", "DotNettyConsoleClient\DotNettyConsoleClient.csproj", "{55796DDC-0DA2-4FBA-9EEF-7E4AE8C9C989}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7783461D-C4D6-47C9-B2EC-E2520DCD86B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7783461D-C4D6-47C9-B2EC-E2520DCD86B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7783461D-C4D6-47C9-B2EC-E2520DCD86B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55796DDC-0DA2-4FBA-9EEF-7E4AE8C9C989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55796DDC-0DA2-4FBA-9EEF-7E4AE8C9C989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55796DDC-0DA2-4FBA-9EEF-7E4AE8C9C989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55796DDC-0DA2-4FBA-9EEF-7E4AE8C9C989}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
