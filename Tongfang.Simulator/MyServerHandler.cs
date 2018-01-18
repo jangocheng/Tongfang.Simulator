@@ -46,6 +46,13 @@ namespace Tongfang.Simulator
                 new MessageBody(body.ToArray())
                 );
             OnReceived(new MessageEventArgs(md));
+            if (md.Head.TypeByte == 100)
+            {
+                buffer.Clear();
+                byte[] writeBytes = new byte[] { md.Head.FirstByte, md.Head.TypeByte };
+                buffer.WriteBytes(writeBytes);
+                context.WriteAndFlushAsync(buffer);
+            }
         }
 
         protected void OnReceived(MessageEventArgs e)
