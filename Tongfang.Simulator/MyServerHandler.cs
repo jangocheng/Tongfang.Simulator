@@ -47,11 +47,15 @@ namespace Tongfang.Simulator
                 );
             OnReceived(new MessageEventArgs(md));
             if (md.Head.TypeByte == 100)
-            {
-                buffer.Clear();
-                byte[] writeBytes = new byte[] { md.Head.FirstByte, md.Head.TypeByte };
-                buffer.WriteBytes(writeBytes);
-                context.WriteAndFlushAsync(buffer);
+            {                
+                byte[] responseHead = new byte[] { md.Head.FirstByte, md.Head.TypeByte };
+                byte[] responseBody = Encoding.UTF8.GetBytes("{\"state\":9,\"deviceIds\":[]}");
+                List<byte> list = new List<byte>(256);
+                list.AddRange(responseHead);
+                list.AddRange(responseBody);
+                IByteBuffer response = Unpooled.Buffer(list.Capacity);
+                response.WriteBytes(list.ToArray());
+                context.WriteAndFlushAsync(response);
             }
         }
 
