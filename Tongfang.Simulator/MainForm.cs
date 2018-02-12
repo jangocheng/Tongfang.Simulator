@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Tongfang.Simulator
 {
     public partial class MainForm : Form
     {
+        public int MaxFrameLength = int.Parse(ConfigurationManager.AppSettings["MaxFrameLength"] ?? "65536");
         public const int DefaultPort = 43210;
 
         private IEventLoopGroup bossGroup;
@@ -61,7 +63,7 @@ namespace Tongfang.Simulator
                         //}
                         //pipeline.AddLast(new LoggingHandler("SRV-CONN"));
                         pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
-                        pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(1000, 0, 4, 0, 4));
+                        pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(MaxFrameLength, 0, 4, 0, 4));
                         pipeline.AddLast("my-handler", myHandler);
                     }));
         }
